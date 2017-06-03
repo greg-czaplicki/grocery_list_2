@@ -2,7 +2,7 @@
 
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Save" />
+    <input type="submit" value="Add Item" />
 </form>
 
 {% regroup grocery_list by get_category_display as results %}
@@ -11,8 +11,51 @@
   <h4>{{ c.grouper }}</h4>
   <ul>
     {% for item in c.list %}
-    <li>{{ item }}</li>
+
+    {% if item.quantity > 1 %}
+    <li><a href="/edit/{{ item.id }}">Edit </a>
+      {% if item.complete is True %}
+      <span style="color: green">{{ item }} - {{ item.quantity }} </span>
+      {% else %}
+      <span style="color: red">{{ item }} - {{ item.quantity }} </span>
+      {% endif %}
+    </li>
+    {% elif item.weight > 0 %}
+    <li><a href="/edit/{{ item.id }}">Edit </a>
+      {% if item.complete is True %}
+      <span style="color: green">{{ item }} - {{ item.weight }} lbs</span>
+      {% else %}
+      <span style="color: red">{{ item }} - {{ item.weight }} lbs</span>
+      {% endif %}
+    </li>
+    {% else %}
+    <li><a href="/edit/{{ item.id }}">Edit </a>
+      {% if item.complete is True %}
+      <span style="color: green">{{ item }}</span>
+      {% else %}
+      <span style="color: red">{{ item }}</span>
+      {% endif %}
+    </li>
+    {% endif %}
+
+
+
+
+
+
     {% endfor %}
   </ul>
 
 {% endfor %}
+
+{% if recipe_list %}
+<h4>Recipes:</h4>
+{% for recipe in recipe_list %}
+<ul>
+  <h2>
+    <a href="{{ recipe.address }}" target="_blank">{{ recipe }}</a>
+  </h2>
+</ul>
+
+{% endfor %}
+{% endif %}

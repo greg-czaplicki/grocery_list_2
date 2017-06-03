@@ -20,10 +20,19 @@ CHOICES = (
 
 
 class Item(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     category = models.IntegerField(choices = CHOICES)
     quantity = models.IntegerField(default=1)
     weight = models.IntegerField(default=0)
+    complete = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Recipe(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+    address = models.URLField()
 
     def __str__(self):
         return self.name
