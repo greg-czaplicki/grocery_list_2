@@ -1,0 +1,18 @@
+<h1>Hello</h1>
+
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+
+{% regroup grocery_list by get_category_display as results %}
+
+{% for c in results %}
+  <h4>{{ c.grouper }}</h4>
+  <ul>
+    {% for item in c.list %}
+    <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+
+{% endfor %}
