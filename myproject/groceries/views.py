@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import CreateView, TemplateView, UpdateView
 from groceries.models import Item, Recipe
@@ -39,3 +39,11 @@ class RecipeTemplateView(CreateView):
     def get_context_data(self, **kwargs):
         kwargs['recipe_list'] = Recipe.objects.order_by('name')
         return super(RecipeTemplateView, self).get_context_data(**kwargs)
+
+
+def DeleteList(request):
+    database = Item.objects.all()
+    recipes = Recipe.objects.all()
+    database.delete()
+    recipes.delete()
+    return redirect('Home')

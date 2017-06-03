@@ -1,4 +1,4 @@
-<h1>Hello</h1>
+<h1>Grocery List</h1>
 
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
@@ -59,3 +59,8 @@
 
 {% endfor %}
 {% endif %}
+
+
+<a href="{% url 'Delete' %}">Delete Grocery List?</a>
+<br>
+<a href="{% url 'Recipe' %}">Add Recipe</a>
