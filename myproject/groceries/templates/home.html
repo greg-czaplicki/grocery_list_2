@@ -1,66 +1,100 @@
-<h1>Grocery List</h1>
+{% extends 'base.html' %}
+{% load widget_tweaks %}
 
-<form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Add Item" />
-</form>
+{% block title %}Grocery List{% endblock %}
 
-{% regroup grocery_list by get_category_display as results %}
+{% block content %}
 
-{% for c in results %}
-  <h4>{{ c.grouper }}</h4>
+  <h1 class="title">Grocery List</h1>
+
+  <form action="" method="post">{% csrf_token %}
+
+    <div class="field">
+      <label class="label">Name:</label>
+      <p class="control">
+        {{ form.name|add_class:"input" }}
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">Category:</label>
+      <p class="control is-expanded">
+        <span class="select is-fullwidth">
+          {{ form.category }}
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">Quantity:</label>
+      <p class="control">
+        {{ form.quantity|add_class:"input" }}
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">Weight: (Optional)</label>
+      <p class="control">
+        {{ form.weight|add_class:"input"|attr:"step:0.25" }}
+      </p>
+    </div>
+
+      <input type="submit" value="Add Item" class="button is-primary" />
+  </form>
+
+  {% regroup grocery_list by get_category_display as results %}
+
+  {% for c in results %}
+    <h4 class="category">{{ c.grouper }}</h4>
+    <ul>
+      {% for item in c.list %}
+
+      {% if item.quantity > 1 %}
+      <li><a href="/edit/{{ item.id }}">Edit </a>
+        {% if item.complete is True %}
+        <span style="color: green">{{ item }} - {{ item.quantity }} </span>
+        {% else %}
+        <span style="color: red">{{ item }} - {{ item.quantity }} </span>
+        {% endif %}
+      </li>
+      {% elif item.weight > 0 %}
+      <li><a href="/edit/{{ item.id }}">Edit </a>
+        {% if item.complete is True %}
+        <span style="color: green">{{ item }} - {{ item.weight }} lbs</span>
+        {% else %}
+        <span style="color: red">{{ item }} - {{ item.weight }} lbs</span>
+        {% endif %}
+      </li>
+      {% else %}
+      <li><a href="/edit/{{ item.id }}">Edit </a>
+        {% if item.complete is True %}
+        <span style="color: green">{{ item }}</span>
+        {% else %}
+        <span style="color: red">{{ item }}</span>
+        {% endif %}
+      </li>
+      {% endif %}
+
+      {% endfor %}
+    </ul>
+
+  {% endfor %}
+
+  {% if recipe_list %}
+  <h4>Recipes:</h4>
+  {% for recipe in recipe_list %}
   <ul>
-    {% for item in c.list %}
-
-    {% if item.quantity > 1 %}
-    <li><a href="/edit/{{ item.id }}">Edit </a>
-      {% if item.complete is True %}
-      <span style="color: green">{{ item }} - {{ item.quantity }} </span>
-      {% else %}
-      <span style="color: red">{{ item }} - {{ item.quantity }} </span>
-      {% endif %}
-    </li>
-    {% elif item.weight > 0 %}
-    <li><a href="/edit/{{ item.id }}">Edit </a>
-      {% if item.complete is True %}
-      <span style="color: green">{{ item }} - {{ item.weight }} lbs</span>
-      {% else %}
-      <span style="color: red">{{ item }} - {{ item.weight }} lbs</span>
-      {% endif %}
-    </li>
-    {% else %}
-    <li><a href="/edit/{{ item.id }}">Edit </a>
-      {% if item.complete is True %}
-      <span style="color: green">{{ item }}</span>
-      {% else %}
-      <span style="color: red">{{ item }}</span>
-      {% endif %}
-    </li>
-    {% endif %}
-
-
-
-
-
-
-    {% endfor %}
+    <h2>
+      <a href="{{ recipe.address }}" target="_blank">{{ recipe }}</a>
+    </h2>
   </ul>
 
-{% endfor %}
-
-{% if recipe_list %}
-<h4>Recipes:</h4>
-{% for recipe in recipe_list %}
-<ul>
-  <h2>
-    <a href="{{ recipe.address }}" target="_blank">{{ recipe }}</a>
-  </h2>
-</ul>
-
-{% endfor %}
-{% endif %}
+  {% endfor %}
+  {% endif %}
 
 
-<a href="{% url 'Delete' %}">Delete Grocery List?</a>
-<br>
-<a href="{% url 'Recipe' %}">Add Recipe</a>
+  <a href="{% url 'Delete' %}">Delete Grocery List?</a>
+  <br>
+  <a href="{% url 'Recipe' %}">Add Recipe</a>
+
+{% endblock %}

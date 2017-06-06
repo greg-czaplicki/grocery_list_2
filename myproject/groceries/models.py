@@ -23,7 +23,7 @@ class Item(models.Model):
     name = models.CharField(max_length=30, unique=True)
     category = models.IntegerField(choices = CHOICES)
     quantity = models.IntegerField(default=1)
-    weight = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    weight = models.DecimalField(default=0.00, max_digits=5, decimal_places=2)
     complete = models.BooleanField(default=False)
 
     def __str__(self):
