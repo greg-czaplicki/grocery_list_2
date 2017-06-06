@@ -45,12 +45,12 @@
   {% regroup grocery_list by get_category_display as results %}
 
   {% for c in results %}
-    <h4 class="category">{{ c.grouper }}</h4>
+    <h4 class="title is-4">{{ c.grouper }}</h4>
     <ul>
       {% for item in c.list %}
 
       {% if item.quantity > 1 %}
-      <li><a href="/edit/{{ item.id }}">Edit </a>
+      <li><a href="/edit/{{ item.id }}"> <i class="fa fa-pencil fa-lg"></i></a>
         {% if item.complete is True %}
         <span style="color: green">{{ item }} - {{ item.quantity }} </span>
         {% else %}
@@ -58,7 +58,7 @@
         {% endif %}
       </li>
       {% elif item.weight > 0 %}
-      <li><a href="/edit/{{ item.id }}">Edit </a>
+      <li><a href="/edit/{{ item.id }}"> <i class="fa fa-pencil fa-lg"></i></a>
         {% if item.complete is True %}
         <span style="color: green">{{ item }} - {{ item.weight }} lbs</span>
         {% else %}
@@ -66,7 +66,7 @@
         {% endif %}
       </li>
       {% else %}
-      <li><a href="/edit/{{ item.id }}">Edit </a>
+      <li><a href="/edit/{{ item.id }}"> <i class="fa fa-pencil fa-lg"></i></a>
         {% if item.complete is True %}
         <span style="color: green">{{ item }}</span>
         {% else %}
@@ -81,20 +81,21 @@
   {% endfor %}
 
   {% if recipe_list %}
-  <h4>Recipes:</h4>
+  <h4 class="title is-4">Recipes:</h4>
   {% for recipe in recipe_list %}
   <ul>
-    <h2>
-      <a href="{{ recipe.address }}" target="_blank">{{ recipe }}</a>
-    </h2>
+      <li>
+        <a href="{{ recipe.address }}" target="_blank" class="subtitle">{{ recipe }}</a>
+      </li>
   </ul>
 
   {% endfor %}
   {% endif %}
 
-
-  <a href="{% url 'Delete' %}">Delete Grocery List?</a>
+<br>
+  <a href="{% url 'Delete' %}" class="button is-danger">Delete Grocery List?</a>
   <br>
-  <a href="{% url 'Recipe' %}">Add Recipe</a>
+  <br>
+  <a href="{% url 'Recipe' %}" class="button is-info">Add Recipe</a>
 
 {% endblock %}

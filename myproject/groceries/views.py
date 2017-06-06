@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import CreateView, TemplateView, UpdateView
 from groceries.models import Item, Recipe
-from groceries.forms import ItemForm
+from groceries.forms import ItemForm, AddRecipe
 
 
 class HomeTemplateView(CreateView):
@@ -31,8 +31,8 @@ class UpdateTemplateView(UpdateView):
 
 class RecipeTemplateView(CreateView):
     model = Recipe
-    fields = ['name', 'address']
     template_name = 'recipe.html'
+    form_class = AddRecipe
 
     def get_success_url(self):
         return reverse('Home')

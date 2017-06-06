@@ -1,20 +1,40 @@
-<h1>Hello</h1>
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Grocery List{% endblock %}
+
+{% block content %}
+
+<h1 class="title">Add Recipe</h1>
 
 <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Add Recipe" />
+
+  <div class="field">
+    <label class="label">Name:</label>
+    <p class="control">
+      {{ form.name|add_class:"input" }}
+    </p>
+  </div>
+
+  <div class="field">
+    <label class="label">URL Address:</label>
+    <p class="control">
+      {{ form.address|add_class:"input" }}
+    </p>
+  </div>
+
+  <input type="submit" value="Add Recipe" />
 </form>
 
 
-
-
 {% for recipe in recipe_list %}
+<h1 class="title is-4">Current Recipes:</h1>
 <ul>
-  <h4>
+  <h4 class="subtitle">
     <a href="{{ recipe.address }}">{{ recipe }}</a>
   </h4>
 </ul>
 
 {% endfor %}
-
-<a href="{% url 'Home' %}">Go Back</a>
+<br>
+<a href="{% url 'Home' %}">Go Back</a> {% endblock %}
