@@ -43,10 +43,10 @@
 
 
     {% for recipe in recipe_list %}
-        <h1 class="title is-4">Current Recipes:</h1>
+        <h1 class="title is-4">Recipes:</h1>
         <ul>
             <li>
-                <a href="{{ recipe.address }}">{{ recipe }}</a>
+                <a href="{{ recipe.address }}" class="incomplete recipe" target="_blank">{{ recipe }}</a>
             </li>
 
         </ul>

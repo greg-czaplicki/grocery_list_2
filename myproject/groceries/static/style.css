@@ -1,9 +1,48 @@
-.container {
-    width: 50%;
+body {
+    background: linear-gradient(#ccc, #fff);
+    padding: 20px;
 }
 
-.columns {
-    padding: 40px;
+.main-title {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 50px;
+}
+
+
+.letter {
+    background: #f9f9f9;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    margin: 26px auto 0;
+    max-width: 680px;
+    min-height: 300px;
+    padding: 70px;
+    position: relative;
+    width: 90%;
+    z-index: 0;
+}
+
+.letter:before, .letter:after {
+    content: "";
+    height: 110%;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+}
+
+.letter:before {
+    background: #f6f6f6;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+    left: -15px;
+    top: 4px;
+    transform: rotate(-5.5deg);
+}
+
+.letter:after {
+    background: #fff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    right: -3px;
+    top: 20px;
+    transform: rotate(1.4deg);
 }
 
 .title.is-4 {
@@ -14,6 +53,11 @@
 .complete {
     color: gray;
     text-decoration: line-through;
+}
+
+.incomplete.recipe {
+    letter-spacing: 0;
+    text-decoration: underline;
 }
 
 a:hover, a:subtitle {
@@ -28,8 +72,15 @@ a:hover, a:subtitle {
     border: none;
 }
 
-span, #id_name, #id_quantity, #id_weight, #id_category, #id_address {
+#id_name, #id_quantity, #id_weight, #id_category, #id_address {
     font-size: 20px;
+}
+
+.complete, .incomplete {
+    font-size: 25px;
+    font-family: 'Gloria Hallelujah', cursive;
+    color: #494949;
+    letter-spacing: 3px;
 }
 
 .button.is-primary {
@@ -79,12 +130,48 @@ and (orientation: portrait) {
     }
 
     .incomplete, .complete {
-        font-size: 25px;
+        font-size: 30px;
         padding-left: 10px;
     }
 
     .button.is-primary, .button.is-info, .button.is-danger {
-    height: 50px;
-    font-size: 20px;
-}
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .letter {
+        background: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        margin: 26px auto 0;
+        max-width: 550px;
+        min-height: 300px;
+        padding: 50px;
+        position: relative;
+        width: 90%;
+    }
+
+    .letter:before, .letter:after {
+        content: "";
+        height: 98%;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+    }
+
+    .letter:before {
+        background: #f6f6f6;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        left: -5px;
+        top: 4px;
+        transform: rotate(-2.5deg);
+    }
+
+    .letter:after {
+        background: #fff;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+        right: -3px;
+        top: 1px;
+        transform: rotate(1.4deg);
+    }
+
 }

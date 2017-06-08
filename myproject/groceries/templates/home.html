@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load widget_tweaks %} {% block title %}Grocery
     List{% endblock %} {% block content %}
 
-    <h1 class="title">Grocery List</h1>
+    <h1 class="main-title">Grocery List</h1>
 
     <form action="" method="post">
         {% csrf_token %}
@@ -104,7 +104,7 @@
                     <i class="fa fa-pencil fa-lg"></i></a>
                     <a href="{{ recipe.address }}"
                        target="_blank"
-                       class="incomplete">{{ recipe|title }}</a>
+                       class="incomplete recipe">{{ recipe|title }}</a>
                 </li>
             </ul>
 
