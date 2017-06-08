@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic import CreateView, TemplateView, UpdateView
-from groceries.models import Item, Recipe
+from django.shortcuts import redirect
+from django.views.generic import CreateView, UpdateView
+
 from groceries.forms import ItemForm, AddRecipe
+from groceries.models import Item, Recipe
 
 
 class HomeTemplateView(CreateView):
@@ -20,10 +21,18 @@ class HomeTemplateView(CreateView):
 
 
 class UpdateTemplateView(UpdateView):
-    template_name = 'item_update.html'
     model = Item
-    fields = ['name', 'category', 'quantity', 'weight']
-    template_name_suffix = '_update'
+    template_name = 'item_update.html'
+    form_class = ItemForm
+
+    def get_success_url(self):
+        return reverse('Home')
+
+
+class UpdateRecipeTemplateView(UpdateView):
+    model = Recipe
+    template_name = 'recipe_update.html'
+    form_class = AddRecipe
 
     def get_success_url(self):
         return reverse('Home')
@@ -40,6 +49,30 @@ class RecipeTemplateView(CreateView):
     def get_context_data(self, **kwargs):
         kwargs['recipe_list'] = Recipe.objects.order_by('name')
         return super(RecipeTemplateView, self).get_context_data(**kwargs)
+
+
+def DeleteItem(request, pk):
+    object = Item.objects.get(id=pk)
+    object.delete()
+    return redirect('Home')
+
+
+def DeleteRecipe(request, pk):
+    object = Recipe.objects.get(id=pk)
+    object.delete()
+    return redirect('Home')
+
+
+def CompleteItem(request, pk):
+    object = Item.objects.get(id=pk)
+
+    if object.complete == False:
+        object.complete = True
+    else:
+        object.complete = False
+
+    object.save()
+    return redirect('Home')
 
 
 def DeleteList(request):

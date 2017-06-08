@@ -1,101 +1,119 @@
-{% extends 'base.html' %}
-{% load widget_tweaks %}
+{% extends 'base.html' %} {% load widget_tweaks %} {% block title %}Grocery
+    List{% endblock %} {% block content %}
 
-{% block title %}Grocery List{% endblock %}
+    <h1 class="title">Grocery List</h1>
 
-{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
 
-  <h1 class="title">Grocery List</h1>
 
-  <form action="" method="post">{% csrf_token %}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="notification is-warning">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="notification is-warning">
+                    {{ error|escape }}
+                </div>
+            {% endfor %}
+        {% endif %}
 
-    <div class="field">
-      <label class="label">Name:</label>
-      <p class="control">
-        {{ form.name|add_class:"input" }}
-      </p>
-    </div>
 
-    <div class="field">
-      <label class="label">Category:</label>
-      <p class="control is-expanded">
-        <span class="select is-fullwidth">
+        <div class="field">
+            <label class="label">Name:</label>
+            <p class="control">
+                {{ form.name|add_class:"input" }}
+            </p>
+        </div>
+
+        <div class="field">
+            <label class="label">Category:</label>
+            <p class="control is-expanded">
+         <span class="select is-fullwidth">
           {{ form.category }}
         </span>
-      </p>
-    </div>
+            </p>
+        </div>
 
-    <div class="field">
-      <label class="label">Quantity:</label>
-      <p class="control">
-        {{ form.quantity|add_class:"input" }}
-      </p>
-    </div>
+        <div class="field">
+            <label class="label">Quantity:</label>
+            <p class="control is-expanded">
+         <span class="select is-fullwidth">
+          {{ form.quantity }}
+        </span>
+            </p>
+        </div>
 
-    <div class="field">
-      <label class="label">Weight: (Optional)</label>
-      <p class="control">
-        {{ form.weight|add_class:"input"|attr:"step:0.25" }}
-      </p>
-    </div>
+        {#        <div class="field">#}
+        {#            <label class="label">Weight (Lbs):</label>#}
+        {#            <p class="control">#}
+        {#                {{ form.weight|add_class:"input"|attr:"step:0.25" }}#}
+        {#            </p>#}
+        {#        </div>#}
 
-      <input type="submit" value="Add Item" class="button is-primary" />
-  </form>
+        <div class="field">
+            <input type="submit" class="button is-primary" value="Add Item" formnovalidate/>
+        </div>
 
-  {% regroup grocery_list by get_category_display as results %}
 
-  {% for c in results %}
-    <h4 class="title is-4">{{ c.grouper }}</h4>
-    <ul>
-      {% for item in c.list %}
+    </form>
 
-      {% if item.quantity > 1 %}
-      <li><a href="/edit/{{ item.id }}"> <i class="fa fa-pencil fa-lg"></i></a>
-        {% if item.complete is True %}
-        <span style="color: green">{{ item }} - {{ item.quantity }} </span>
-        {% else %}
-        <span style="color: red">{{ item }} - {{ item.quantity }} </span>
-        {% endif %}
-      </li>
-      {% elif item.weight > 0 %}
-      <li><a href="/edit/{{ item.id }}"> <i class="fa fa-pencil fa-lg"></i></a>
-        {% if item.complete is True %}
-        <span style="color: green">{{ item }} - {{ item.weight }} lbs</span>
-        {% else %}
-        <span style="color: red">{{ item }} - {{ item.weight }} lbs</span>
-        {% endif %}
-      </li>
-      {% else %}
-      <li><a href="/edit/{{ item.id }}"> <i class="fa fa-pencil fa-lg"></i></a>
-        {% if item.complete is True %}
-        <span style="color: green">{{ item }}</span>
-        {% else %}
-        <span style="color: red">{{ item }}</span>
-        {% endif %}
-      </li>
-      {% endif %}
+    {% regroup grocery_list by get_category_display as results %}
+    {% for c in results %}
+        <h4 class="title is-4">{{ c.grouper }}:</h4>
+        <ul>
+            {% for item in c.list %}
+                {% if item.quantity > 1 %}
+                    <li><a href="/edit/{{ item.id }}">
+                        <i class="fa fa-pencil fa-lg"></i></a>
+                        {% if item.complete is True %}
+                            <a href="/complete/{{ item.id }}"><span class="complete">{{ item }} - {{ item.quantity }} </span></a>
+                        {% else %}
+                            <a href="/complete/{{ item.id }}"><span class="incomplete">{{ item }} - {{ item.quantity }} </span></a>
+                        {% endif %}
+                    </li>
+                {% elif item.weight > 0 %}
+                    <li><a href="/edit/{{ item.id }}">
+                        <i class="fa fa-pencil fa-lg"></i></a>
+                        {% if item.complete is True %}
+                            <a href="/complete/{{ item.id }}"><span class="complete">{{ item }} - {{ item.weight }} lbs</span></a>
+                        {% else %}
+                            <a href="/complete/{{ item.id }}"><span class="incomplete">{{ item }} - {{ item.weight }} lbs</span></a>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    <li><a href="/edit/{{ item.id }}">
+                        <i class="fa fa-pencil fa-lg"></i></a>
+                        {% if item.complete is True %}
+                            <a href="/complete/{{ item.id }}"><span class="complete">{{ item }}</span></a>
+                        {% else %}
+                            <a href="/complete/{{ item.id }}"><span class="incomplete">{{ item }}</span></a>
+                        {% endif %}
+                    </li>
+                {% endif %} {% endfor %}
+        </ul>
 
-      {% endfor %}
-    </ul>
+    {% endfor %} {% if recipe_list %}
+        <h4 class="title is-4">Recipes:</h4> {% for recipe in recipe_list %}
+            <ul>
+                <li><a href="/edit/recipe/{{ recipe.id }}">
+                    <i class="fa fa-pencil fa-lg"></i></a>
+                    <a href="{{ recipe.address }}"
+                       target="_blank"
+                       class="incomplete">{{ recipe|title }}</a>
+                </li>
+            </ul>
 
-  {% endfor %}
+        {% endfor %} {% endif %}
 
-  {% if recipe_list %}
-  <h4 class="title is-4">Recipes:</h4>
-  {% for recipe in recipe_list %}
-  <ul>
-      <li>
-        <a href="{{ recipe.address }}" target="_blank" class="subtitle">{{ recipe }}</a>
-      </li>
-  </ul>
-
-  {% endfor %}
-  {% endif %}
-
-<br>
-  <a href="{% url 'Delete' %}" class="button is-danger">Delete Grocery List?</a>
-  <br>
-  <br>
-  <a href="{% url 'Recipe' %}" class="button is-info">Add Recipe</a>
-
-{% endblock %}
+    <br>
+    <a href="{% url 'Delete' %}" class="button is-danger">Delete Grocery
+        List?</a>
+    <br>
+    <br>
+    <a href="{% url 'Recipe' %}" class="button is-info">Add
+        Recipe</a> {% endblock %}

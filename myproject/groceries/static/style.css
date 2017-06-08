@@ -1,8 +1,90 @@
+.container {
+    width: 50%;
+}
+
 .columns {
-  padding: 40px;
+    padding: 40px;
 }
 
 .title.is-4 {
     padding-top: 30px;
     margin-bottom: 5px;
+}
+
+.complete {
+    color: gray;
+    text-decoration: line-through;
+}
+
+a:hover, a:subtitle {
+    color: #00D1B2;
+}
+
+.is-hidden {
+    display: none;
+}
+
+.notification > button.delete {
+    border: none;
+}
+
+span, #id_name, #id_quantity, #id_weight, #id_category, #id_address {
+    font-size: 20px;
+}
+
+.button.is-primary {
+    display: block;
+}
+
+.button {
+    width: 100%;
+}
+
+.fa.fa-chevron-circle-left {
+    padding-top: 4px;
+}
+
+.fa.fa-pencil.fa-lg {
+    font-size: 25px;
+    margin-bottom: 2px;
+}
+
+.label {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+a {
+    font-size: 25px;
+}
+
+.fa.fa-chevron-circle-left {
+    padding-top: 6px;
+}
+
+.button.is-primary {
+    margin-top: 25px;
+}
+
+.button.is-primary, .button.is-info, .button.is-danger {
+    font-size: 20px;
+}
+
+@media only screen
+and (max-device-width: 1024px)
+and (orientation: portrait) {
+
+    .title.is-4 {
+        font-size: 30px;
+    }
+
+    .incomplete, .complete {
+        font-size: 25px;
+        padding-left: 10px;
+    }
+
+    .button.is-primary, .button.is-info, .button.is-danger {
+    height: 50px;
+    font-size: 20px;
+}
 }

@@ -4,45 +4,47 @@
 {% block title %}Update {{ item.name }}{% endblock %}
 
 {% block content %}
-  <h1 class="title">Update Item</h1>
+    <h1 class="title">Update {{ item.name }}</h1>
 
-  <form action="" method="post">{% csrf_token %}
+    <form action="" method="post">{% csrf_token %}
 
-    <div class="field">
-      <label class="label">Name:</label>
-      <p class="control">
-        {{ form.name|add_class:"input"}}
-      </p>
-    </div>
+        <div class="field">
+            <label class="label">Name:</label>
+            <p class="control">
+                {{ form.name }}
+            </p>
+        </div>
 
-    <div class="field">
-      <label class="label">Category:</label>
-      <p class="control is-expanded">
+        <div class="field">
+            <label class="label">Category:</label>
+            <p class="control is-expanded">
         <span class="select is-fullwidth">
           {{ form.category }}
         </span>
-      </p>
-    </div>
+            </p>
+        </div>
 
-    <div class="field">
-      <label class="label">Quantity:</label>
-      <p class="control">
-        {{ form.quantity|add_class:"input" }}
-      </p>
-    </div>
+        <div class="field">
+            <label class="label">Quantity:</label>
+            <p class="control">
+                {{ form.quantity|add_class:"input" }}
+            </p>
+        </div>
 
-    <div class="field">
-      <label class="label">Weight:</label>
-      <p class="control">
-        {{ form.weight|add_class:"input"}}
-      </p>
-    </div>
+{#        <div class="field">#}
+{#            <label class="label">Weight:</label>#}
+{#            <p class="control">#}
+{#                {{ form.weight|add_class:"input" }}#}
+{#            </p>#}
+{#        </div>#}
 
-      <input type="submit" value="Update Item" class="button is-primary" />
-  </form>
-
-  <a href="{% url 'Home' %}">Go Back</a>
-
+        <input type="submit" value="Update Item" class="button is-primary"/>
+    </form>
+    <br>
+    <a href="/delete/item/{{ item.id }}" class="button is-danger">Delete {{ item }}?</a>
+    <br>
+    <br>
+    <a href="{% url 'Home' %}"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Go Back</a>
 
 
 {% endblock %}
